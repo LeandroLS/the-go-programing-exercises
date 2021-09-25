@@ -25,9 +25,11 @@ func main() {
 	}
 
 	for palavra, arrMaps := range counts {
-		fmt.Println(palavra)
-		for _, valor := range arrMaps {
-			fmt.Println(valor)
+		fmt.Println("Word: ", palavra)
+		for _, arrMap := range arrMaps {
+			for file, quantity := range arrMap {
+				fmt.Printf("File: %s\t Quantity: %d\n", file, quantity)
+			}
 		}
 	}
 
@@ -36,8 +38,8 @@ func main() {
 func countLines(f *os.File, counts map[string][]map[string]int, arg string) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
-		arquivo := make(map[string]int)
-		arquivo[arg]++
+		file := make(map[string]int)
+		file[arg]++
 		if _, ok := counts[input.Text()]; ok {
 			added := false
 			for _, val := range counts[input.Text()] {
@@ -47,10 +49,10 @@ func countLines(f *os.File, counts map[string][]map[string]int, arg string) {
 				}
 			}
 			if !added {
-				counts[input.Text()] = append(counts[input.Text()], arquivo)
+				counts[input.Text()] = append(counts[input.Text()], file)
 			}
 		} else {
-			counts[input.Text()] = append(counts[input.Text()], arquivo)
+			counts[input.Text()] = append(counts[input.Text()], file)
 		}
 
 	}
