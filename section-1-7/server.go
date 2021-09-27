@@ -10,6 +10,7 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"strconv"
 )
 
 const (
@@ -26,13 +27,20 @@ func main() {
 
 // handler echoes the Path component of the request URL r.
 func handler(w http.ResponseWriter, r *http.Request) {
-	lissajous(w)
-	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
+	queryParams := r.URL.Query()
+	fmt.Println(queryParams)
+	cycles := 3
+	if _, ok := queryParams["cycles"]; ok {
+		cycles, _ = strconv.Atoi(queryParams["cycles"][:1])
+	}
+
+	fmt.Println(r.URL.Query(), cycles)
+	lissajous(w, float64(cycles))
+	// fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
 }
 
-func lissajous(out io.Writer) {
+func lissajous(out io.Writer, cycles float64) {
 	const (
-		cycles  = 5     // number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
 		size    = 100   // image canvas covers [-size..+size]
 		nframes = 64    // number of animation frames
