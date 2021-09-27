@@ -31,7 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(queryParams)
 	cycles := 3
 	if _, ok := queryParams["cycles"]; ok {
-		cycles, _ = strconv.Atoi(queryParams["cycles"][:1])
+		cycles, _ = strconv.Atoi(queryParams["cycles"][0])
 	}
 
 	fmt.Println(r.URL.Query(), cycles)
