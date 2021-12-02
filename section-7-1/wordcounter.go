@@ -15,15 +15,8 @@ func (w *ByteCounter) Write(p []byte) (int, error) {
 type Wordcounter int
 
 func (w *Wordcounter) Write(p []byte) (int, error) {
-	*w += Wordcounter(len(strings.Fields(string(p))))
-	return 0, nil
-}
-
-type LineCounter int
-
-func (w *LineCounter) Write(p []byte) (int, error) {
-	*w += LineCounter(len(strings.Fields(string(p))))
-	return 0, nil
+	// *w += Wordcounter(len(strings.Fields(string(p))))
+	return len(strings.Fields(string(p))), nil
 }
 
 func main() {
@@ -32,6 +25,6 @@ func main() {
 	fmt.Println(b)
 
 	var w Wordcounter
-	w.Write([]byte("uma duas tres"))
-	fmt.Println(w)
+	w2, _ := w.Write([]byte("uma duas tres"))
+	fmt.Println(w2)
 }
